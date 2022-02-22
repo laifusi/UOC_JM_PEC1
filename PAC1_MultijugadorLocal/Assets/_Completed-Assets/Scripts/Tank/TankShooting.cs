@@ -7,6 +7,7 @@ namespace Complete
     {
         public int m_PlayerNumber = 1;              // Used to identify the different players.
         public Rigidbody m_Shell;                   // Prefab of the shell.
+        public Rigidbody m_RedShell;                // Prefab of the red shell.
         public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
         public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
         public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
@@ -22,6 +23,7 @@ namespace Complete
         private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
         private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
         private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
+        private Rigidbody m_ShellToUse;             // Shell prefab to use when firing.
 
 
         private void OnEnable()
@@ -67,6 +69,9 @@ namespace Complete
                 // Change the clip to the charging clip and start it playing.
                 m_ShootingAudio.clip = m_ChargingClip;
                 m_ShootingAudio.Play ();
+
+                //Set the prefab to use based on the button that was pressed.
+                m_ShellToUse = Input.GetButton(m_FireButton) ? m_Shell : m_RedShell;
             }
             // Otherwise, if the fire button is being held and the shell hasn't been launched yet...
             else if ((Input.GetButton (m_FireButton) || Input.GetButton(m_AltFireButton)) && !m_Fired)
@@ -92,7 +97,7 @@ namespace Complete
 
             // Create an instance of the shell and store a reference to it's rigidbody.
             Rigidbody shellInstance =
-                Instantiate (m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+                Instantiate (m_ShellToUse, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
             // Set the shell's velocity to the launch force in the fire position's forward direction.
             shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; 
