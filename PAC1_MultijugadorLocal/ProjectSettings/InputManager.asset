@@ -118,6 +118,22 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
+    m_Name: AltFire1
+    descriptiveName: Alternative fire keyboard button for player 1
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: e
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
     m_Name: Horizontal2
     descriptiveName: Horizontal keyboard axis for player 2
     descriptiveNegativeName: 
@@ -157,6 +173,22 @@ InputManager:
     positiveButton: enter
     altNegativeButton: 
     altPositiveButton: return
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: AltFire2
+    descriptiveName: Alternative fire keyboard button for player 2
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: '-'
+    altNegativeButton: 
+    altPositiveButton: 
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -244,20 +276,4 @@ InputManager:
     invert: 1
     type: 2
     axis: 2
-    joyNum: 2
-  - serializedVersion: 3
-    m_Name: Fire2
-    descriptiveName: Fire gamepad button for player 2
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick 2 button 0
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 1000
-    dead: 0.001
-    sensitivity: 1000
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
     joyNum: 2
