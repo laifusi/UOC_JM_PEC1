@@ -14,6 +14,7 @@ namespace Complete
         public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
         public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
         public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
+        [SerializeField] Camera mainCam;            // Reference to the main Camera.
 
         
         private int m_RoundNumber;                  // Which round the game is currently on.
@@ -47,6 +48,27 @@ namespace Complete
                     Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
                 m_Tanks[i].m_PlayerNumber = i + 1;
                 m_Tanks[i].Setup();
+                AddCamera(i);
+            }
+
+            mainCam.gameObject.SetActive(false);
+        }
+
+        private void AddCamera(int playerNumber)
+        {
+            GameObject newCamera = new GameObject("Camera" + playerNumber + 1);
+            Camera camComponent = newCamera.AddComponent<Camera>();
+            camComponent.CopyFrom(mainCam);
+
+            newCamera.transform.parent = m_Tanks[playerNumber].m_Instance.transform;
+
+            if (playerNumber == 0)
+            {
+                camComponent.rect = new Rect(0.0f, 0.5f, 0.89f, 0.5f);
+            }
+            else
+            {
+                camComponent.rect = new Rect(0.11f, 0.0f, 0.89f, 0.5f);
             }
         }
 
