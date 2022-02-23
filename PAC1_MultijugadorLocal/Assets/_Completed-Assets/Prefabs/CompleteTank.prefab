@@ -10323,6 +10323,7 @@ GameObject:
   - component: {fileID: 11443146}
   - component: {fileID: 11409376}
   - component: {fileID: 11488788}
+  - component: {fileID: -4830517797787179534}
   m_Layer: 9
   m_Name: CompleteTank
   m_TagString: Untagged
@@ -10632,6 +10633,20 @@ MonoBehaviour:
   m_MinLaunchForce: 15
   m_MaxLaunchForce: 30
   m_MaxChargeTime: 0.75
+--- !u!114 &-4830517797787179534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02348a50efab85348b6dfab487860759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smooth: 0.5
+  limitDist: 20
 --- !u!1 &173936
 GameObject:
   m_ObjectHideFlags: 0

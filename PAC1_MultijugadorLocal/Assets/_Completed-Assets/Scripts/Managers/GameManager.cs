@@ -64,11 +64,11 @@ namespace Complete
 
             if (playerNumber == 0)
             {
-                camComponent.rect = new Rect(0.0f, 0.5f, 0.89f, 0.5f);
+                camComponent.rect = new Rect(0.0f, 0.5f, 1.0f, 0.5f);
             }
             else
             {
-                camComponent.rect = new Rect(0.11f, 0.0f, 0.89f, 0.5f);
+                camComponent.rect = new Rect(0.0f, 0.0f, 1.0f, 0.5f);
             }
         }
 

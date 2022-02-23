@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 1304999366}
   - component: {fileID: 1304999365}
   - component: {fileID: 1304999367}
+  - component: {fileID: 1304999368}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -657,6 +658,14 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &1304999368
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304999364}
+  m_Enabled: 1
 --- !u!1 &1391056259
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +677,6 @@ GameObject:
   - component: {fileID: 1391056264}
   - component: {fileID: 1391056263}
   - component: {fileID: 1391056261}
-  - component: {fileID: 1391056260}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -676,14 +684,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1391056260
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391056259}
-  m_Enabled: 1
 --- !u!124 &1391056261
 Behaviour:
   m_ObjectHideFlags: 0
@@ -859,6 +859,8 @@ MonoBehaviour:
   m_ScreenEdgeBuffer: 4
   m_MinSize: 6.5
   m_Targets: []
+  limitDistance: 25
+  hysteresis: 5
 --- !u!1 &2083660208
 GameObject:
   m_ObjectHideFlags: 0

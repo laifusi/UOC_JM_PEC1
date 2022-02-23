@@ -8,12 +8,15 @@ namespace Complete
         public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
         [HideInInspector] public Transform[] m_Targets; // All the targets the camera needs to encompass.
+        public float limitDistance = 25.0f;             // Maximum distance between tanks before splitting the screen.
+        public float hysteresis = 5.0f;                 // Extra distance to avoid abrupt changes.
 
 
         private Camera m_Camera;                        // Used for referencing the camera.
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards.
+        private bool splitMode = true;                  // Bool to define if splitMode is on or off.
 
 
         private void Awake ()
@@ -29,6 +32,9 @@ namespace Complete
 
             // Change the size of the camera based.
             Zoom ();
+
+            // Split the screen if the tanks are far apart.
+            Split();
         }
 
 
@@ -127,6 +133,21 @@ namespace Complete
 
             // Find and set the required size of the camera.
             m_Camera.orthographicSize = FindRequiredSize ();
+        }
+
+        private void Split()
+        {
+            float distance = Vector3.Distance(m_Targets[0].position, m_Targets[1].position);
+            if(splitMode && distance < limitDistance - hysteresis)
+            {
+                splitMode = false;
+                m_Camera.gameObject.SetActive(true);
+            }
+            else if(!splitMode && distance > limitDistance + hysteresis)
+            {
+                splitMode = true;
+                m_Camera.gameObject.SetActive(false);
+            }
         }
     }
 }
