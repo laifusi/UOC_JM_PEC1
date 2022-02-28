@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +14,9 @@ namespace Complete
         public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
         public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
         public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
-        public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
+        private List<TankManager> m_Tanks = new List<TankManager>();               
+        public TankManager[] m_Tanks_Available;     // A collection of managers for enabling and disabling different aspects of the tanks.
+        [SerializeField][Range(2,4)] int numberOfPlayers = 2;
         [SerializeField] Camera mainCam;            // Reference to the main Camera.
 
         
@@ -40,8 +43,13 @@ namespace Complete
 
         private void SpawnAllTanks()
         {
+            for(int i = 0; i < numberOfPlayers; i++)
+            {
+                m_Tanks.Add(m_Tanks_Available[i]);
+            }
+
             // For all the tanks...
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 // ... create them, set their player number and references needed for control.
                 m_Tanks[i].m_Instance =
@@ -61,14 +69,16 @@ namespace Complete
             camComponent.CopyFrom(mainCam);
 
             newCamera.transform.parent = m_Tanks[playerNumber].m_Instance.transform;
-
-            if (playerNumber == 0)
+            if (numberOfPlayers == 2)
             {
-                camComponent.rect = new Rect(0.0f, 0.5f, 1.0f, 0.5f);
-            }
-            else
-            {
-                camComponent.rect = new Rect(0.0f, 0.0f, 1.0f, 0.5f);
+                if (playerNumber == 0)
+                {
+                    camComponent.rect = new Rect(0.0f, 0.0f, 0.5f, 1.0f);
+                }
+                else
+                {
+                    camComponent.rect = new Rect(0.5f, 0.0f, 0.5f, 1.0f);
+                }
             }
         }
 
@@ -76,7 +86,7 @@ namespace Complete
         private void SetCameraTargets()
         {
             // Create a collection of transforms the same size as the number of tanks.
-            Transform[] targets = new Transform[m_Tanks.Length];
+            Transform[] targets = new Transform[m_Tanks.Count];
 
             // For each of these transforms...
             for (int i = 0; i < targets.Length; i++)
@@ -186,7 +196,7 @@ namespace Complete
             int numTanksLeft = 0;
 
             // Go through all the tanks...
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 // ... and if they are active, increment the counter.
                 if (m_Tanks[i].m_Instance.activeSelf)
@@ -203,7 +213,7 @@ namespace Complete
         private TankManager GetRoundWinner()
         {
             // Go through all the tanks...
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 // ... and if one of them is active, it is the winner so return it.
                 if (m_Tanks[i].m_Instance.activeSelf)
@@ -219,7 +229,7 @@ namespace Complete
         private TankManager GetGameWinner()
         {
             // Go through all the tanks...
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 // ... and if one of them has enough rounds to win the game, return it.
                 if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
@@ -245,7 +255,7 @@ namespace Complete
             message += "\n\n\n\n";
 
             // Go through all the tanks and add each of their scores to the message.
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
             }
@@ -261,7 +271,7 @@ namespace Complete
         // This function is used to turn all the tanks back on and reset their positions and properties.
         private void ResetAllTanks()
         {
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 m_Tanks[i].Reset();
             }
@@ -270,7 +280,7 @@ namespace Complete
 
         private void EnableTankControl()
         {
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 m_Tanks[i].EnableControl();
             }
@@ -279,7 +289,7 @@ namespace Complete
 
         private void DisableTankControl()
         {
-            for (int i = 0; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Count; i++)
             {
                 m_Tanks[i].DisableControl();
             }
