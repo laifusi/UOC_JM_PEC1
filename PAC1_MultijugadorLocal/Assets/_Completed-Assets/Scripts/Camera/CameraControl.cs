@@ -137,16 +137,19 @@ namespace Complete
 
         private void Split()
         {
-            float distance = Vector3.Distance(m_Targets[0].position, m_Targets[1].position);
-            if(splitMode && distance < limitDistance - hysteresis)
+            if(m_Targets.Length != 0)
             {
-                splitMode = false;
-                m_Camera.gameObject.SetActive(true);
-            }
-            else if(!splitMode && distance > limitDistance + hysteresis)
-            {
-                splitMode = true;
-                m_Camera.gameObject.SetActive(false);
+                float distance = Vector3.Distance(m_Targets[0].position, m_Targets[1].position);
+                if (splitMode && distance < limitDistance - hysteresis)
+                {
+                    splitMode = false;
+                    m_Camera.gameObject.SetActive(true);
+                }
+                else if (!splitMode && distance > limitDistance + hysteresis)
+                {
+                    splitMode = true;
+                    m_Camera.gameObject.SetActive(false);
+                }
             }
         }
     }
