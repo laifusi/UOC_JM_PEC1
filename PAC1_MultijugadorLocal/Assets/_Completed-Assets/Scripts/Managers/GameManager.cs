@@ -64,20 +64,45 @@ namespace Complete
 
         private void AddCamera(int playerNumber)
         {
-            GameObject newCamera = new GameObject("Camera" + playerNumber + 1);
+            GameObject newCamera = new GameObject("Camera" + (playerNumber + 1));
             Camera camComponent = newCamera.AddComponent<Camera>();
             camComponent.CopyFrom(mainCam);
 
             newCamera.transform.parent = m_Tanks[playerNumber].m_Instance.transform;
-            if (numberOfPlayers == 2)
+            if (numberOfPlayers < 3)
             {
                 if (playerNumber == 0)
                 {
-                    camComponent.rect = new Rect(0.0f, 0.0f, 0.5f, 1.0f);
+                    camComponent.rect = new Rect(-0.5f, 0.0f, 1.0f, 1.0f);
                 }
                 else
                 {
-                    camComponent.rect = new Rect(0.5f, 0.0f, 0.5f, 1.0f);
+                    camComponent.rect = new Rect(0.5f, 0.0f, 1.0f, 1.0f);
+                }
+            }
+            else
+            {
+                if(playerNumber % 2 == 0)
+                {
+                    if(playerNumber == 0)
+                    {
+                        camComponent.rect = new Rect(-0.5f, 0.5f, 1.0f, 1.0f);
+                    }
+                    else
+                    {
+                        camComponent.rect = new Rect(-0.5f, -0.5f, 1.0f, 1.0f);
+                    }
+                }
+                else
+                {
+                    if (playerNumber == 1)
+                    {
+                        camComponent.rect = new Rect(0.5f, 0.5f, 1.0f, 1.0f);
+                    }
+                    else
+                    {
+                        camComponent.rect = new Rect(0.5f, -0.5f, 1.0f, 1.0f);
+                    }
                 }
             }
         }
