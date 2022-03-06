@@ -18,6 +18,7 @@ namespace Complete
         public TankManager[] m_Tanks_Available;     // A collection of managers for enabling and disabling different aspects of the tanks.
         [SerializeField][Range(2,4)] int numberOfPlayers = 2;
         [SerializeField] Camera mainCam;            // Reference to the main Camera.
+        private List<Camera> cameras = new List<Camera>();
 
         
         private int m_RoundNumber;                  // Which round the game is currently on.
@@ -40,6 +41,18 @@ namespace Complete
             StartCoroutine (GameLoop ());
         }
 
+        private void Update()
+        {
+            if(numberOfPlayers == 2 && Input.GetButtonDown("Start3"))
+            {
+                InstantiateNewPlayer();
+            }
+            if (numberOfPlayers == 3 && Input.GetButtonDown("Start4"))
+            {
+                InstantiateNewPlayer();
+            }
+        }
+
 
         private void SpawnAllTanks()
         {
@@ -52,14 +65,18 @@ namespace Complete
             for (int i = 0; i < m_Tanks.Count; i++)
             {
                 // ... create them, set their player number and references needed for control.
-                m_Tanks[i].m_Instance =
-                    Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-                m_Tanks[i].m_PlayerNumber = i + 1;
-                m_Tanks[i].Setup();
-                AddCamera(i);
+                InstantiateTank(i);
             }
 
             mainCam.gameObject.SetActive(false);
+        }
+
+        private void InstantiateTank(int i)
+        {
+            m_Tanks[i].m_Instance = Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
+            m_Tanks[i].m_PlayerNumber = i + 1;
+            m_Tanks[i].Setup();
+            AddCamera(i);
         }
 
         private void AddCamera(int playerNumber)
@@ -67,8 +84,14 @@ namespace Complete
             GameObject newCamera = new GameObject("Camera" + (playerNumber + 1));
             Camera camComponent = newCamera.AddComponent<Camera>();
             camComponent.CopyFrom(mainCam);
+            cameras.Add(camComponent);
 
             newCamera.transform.parent = m_Tanks[playerNumber].m_Instance.transform;
+            SetCameraRect(playerNumber, camComponent);
+        }
+
+        private void SetCameraRect(int playerNumber, Camera camComponent)
+        {
             if (numberOfPlayers < 3)
             {
                 if (playerNumber == 0)
@@ -82,9 +105,9 @@ namespace Complete
             }
             else
             {
-                if(playerNumber % 2 == 0)
+                if (playerNumber % 2 == 0)
                 {
-                    if(playerNumber == 0)
+                    if (playerNumber == 0)
                     {
                         camComponent.rect = new Rect(-0.5f, 0.5f, 1.0f, 1.0f);
                     }
@@ -106,7 +129,6 @@ namespace Complete
                 }
             }
         }
-
 
         private void SetCameraTargets()
         {
@@ -317,6 +339,21 @@ namespace Complete
             for (int i = 0; i < m_Tanks.Count; i++)
             {
                 m_Tanks[i].DisableControl();
+            }
+        }
+
+
+        public void InstantiateNewPlayer()
+        {
+            if(numberOfPlayers < 4)
+            {
+                m_Tanks.Add(m_Tanks_Available[numberOfPlayers]);
+                InstantiateTank(numberOfPlayers);
+                numberOfPlayers++;
+                for(int i = 0; i < numberOfPlayers; i++)
+                {
+                    SetCameraRect(i, cameras[i]);
+                }
             }
         }
     }
