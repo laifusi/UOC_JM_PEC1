@@ -1302,7 +1302,7 @@ MonoBehaviour:
     m_ColoredPlayerText: 
     m_Instance: {fileID: 0}
     m_Wins: 0
-  numberOfPlayers: 4
+  numberOfPlayers: 2
   mainCam: {fileID: 1619829165}
 --- !u!4 &1304999366
 Transform:
