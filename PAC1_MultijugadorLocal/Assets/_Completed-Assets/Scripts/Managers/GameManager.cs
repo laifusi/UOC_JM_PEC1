@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,10 +19,12 @@ namespace Complete
         private Dictionary<int, TankManager> tanks = new Dictionary<int, TankManager>();
         public TankManager[] m_Tanks_Available;     // A collection of managers for enabling and disabling different aspects of the tanks.
         [SerializeField][Range(2,4)] int numberOfPlayers = 2;
-        [SerializeField] Camera mainCam;            // Reference to the main Camera.
-        private List<Camera> cameras = new List<Camera>();
+        //[SerializeField] Camera mainCam;            // Reference to the main Camera.
+        //private List<Camera> cameras = new List<Camera>();
+        [SerializeField] Camera[] cinemachineCameras;
+        [SerializeField] CinemachineVirtualCamera[] virtualCams;
 
-        
+
         private int m_RoundNumber;                  // Which round the game is currently on.
         private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
@@ -94,7 +97,7 @@ namespace Complete
                 InstantiateTank(key);
             }
 
-            mainCam.gameObject.SetActive(false);
+            //mainCam.gameObject.SetActive(false);
         }
 
         private void InstantiateTank(int i)
@@ -113,13 +116,18 @@ namespace Complete
 
         private void AddCamera(int playerNumber)
         {
-            GameObject newCamera = new GameObject("Camera" + (playerNumber + 1));
+            /*GameObject newCamera = new GameObject("Camera" + (playerNumber + 1));
             Camera camComponent = newCamera.AddComponent<Camera>();
             camComponent.CopyFrom(mainCam);
-            cameras.Add(camComponent);
+            cameras.Add(camComponent);*/
 
-            newCamera.transform.parent = tanks[playerNumber].m_Instance.transform;
-            SetCameraRect(playerNumber, camComponent);
+            //newCamera.transform.parent = tanks[playerNumber].m_Instance.transform;
+            
+            cinemachineCameras[playerNumber].gameObject.SetActive(true);
+
+            SetCameraRect(playerNumber, cinemachineCameras[playerNumber]);
+            virtualCams[playerNumber].LookAt = tanks[playerNumber].m_Instance.transform;
+            virtualCams[playerNumber].Follow = tanks[playerNumber].m_Instance.transform;
         }
 
         private void SetCameraRect(int playerNumber, Camera camComponent)
@@ -384,7 +392,7 @@ namespace Complete
             numberOfPlayers++;
             for(int i = 0; i < numberOfPlayers; i++)
             {
-                SetCameraRect(i, cameras[i]);
+                SetCameraRect(i, cinemachineCameras[i]);
             }
         }
     }
