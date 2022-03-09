@@ -18,7 +18,6 @@ namespace Complete
         //private List<TankManager> m_Tanks = new List<TankManager>();
         private Dictionary<int, TankManager> tanks = new Dictionary<int, TankManager>();
         public TankManager[] m_Tanks_Available;     // A collection of managers for enabling and disabling different aspects of the tanks.
-        [SerializeField][Range(2,4)] int numberOfPlayers = 2;
         //[SerializeField] Camera mainCam;            // Reference to the main Camera.
         //private List<Camera> cameras = new List<Camera>();
         [SerializeField] Camera[] cinemachineCameras;
@@ -30,6 +29,7 @@ namespace Complete
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+        private int numberOfPlayers;
 
 
         private void Start()
@@ -90,12 +90,16 @@ namespace Complete
                 tanks.Add(3, m_Tanks_Available[3]);
             }
 
+            numberOfPlayers = tanks.Count;
+
             // For all the tanks...
             foreach (int key in tanks.Keys)
             {
                 // ... create them, set their player number and references needed for control.
                 InstantiateTank(key);
             }
+
+            SetAllCameraRects();
 
             //mainCam.gameObject.SetActive(false);
         }
@@ -125,14 +129,50 @@ namespace Complete
             
             cinemachineCameras[playerNumber].gameObject.SetActive(true);
 
-            SetCameraRect(playerNumber, cinemachineCameras[playerNumber]);
+            //SetCameraRect(playerNumber, cinemachineCameras[playerNumber]);
             virtualCams[playerNumber].LookAt = tanks[playerNumber].m_Instance.transform;
             virtualCams[playerNumber].Follow = tanks[playerNumber].m_Instance.transform;
         }
-
-        private void SetCameraRect(int playerNumber, Camera camComponent)
+        
+        private void SetAllCameraRects()
         {
-            if (numberOfPlayers < 3)
+            int i = 0;
+            foreach(int key in tanks.Keys)
+            {
+                if(numberOfPlayers > 2)
+                {
+                    if (i == 0)
+                    {
+                        cinemachineCameras[key].rect = new Rect(-0.5f, 0.5f, 1.0f, 1.0f);
+                    }
+                    else if(i == 1)
+                    {
+                        cinemachineCameras[key].rect = new Rect(0.5f, 0.5f, 1.0f, 1.0f);
+                    }
+                    else if(i == 2)
+                    {
+                        cinemachineCameras[key].rect = new Rect(-0.5f, -0.5f, 1.0f, 1.0f);
+                    }
+                    else
+                    {
+                        cinemachineCameras[key].rect = new Rect(0.5f, -0.5f, 1.0f, 1.0f);
+                    }
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        cinemachineCameras[key].rect = new Rect(-0.5f, 0.0f, 1.0f, 1.0f);
+                    }
+                    else
+                    {
+                        cinemachineCameras[key].rect = new Rect(0.5f, 0.0f, 1.0f, 1.0f);
+                    }
+                }
+                i++;
+            }
+
+            /*if (numberOfPlayers < 3)
             {
                 if (playerNumber == 0)
                 {
@@ -167,7 +207,7 @@ namespace Complete
                         camComponent.rect = new Rect(0.5f, -0.5f, 1.0f, 1.0f);
                     }
                 }
-            }
+            }*/
         }
 
         private void SetCameraTargets()
@@ -387,13 +427,15 @@ namespace Complete
 
         public void InstantiateNewPlayer(int playerNumber)
         {
+            numberOfPlayers++;
             tanks.Add(playerNumber, m_Tanks_Available[playerNumber]);
             InstantiateTank(playerNumber);
             numberOfPlayers++;
-            for(int i = 0; i < numberOfPlayers; i++)
+            /*for(int i = 0; i < numberOfPlayers; i++)
             {
                 SetCameraRect(i, cinemachineCameras[i]);
-            }
+            }*/
+            SetAllCameraRects();
         }
     }
 }
