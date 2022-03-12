@@ -98,10 +98,21 @@ namespace Complete
             }
         }
 
-        private void InstantiateTank(int i)
+        private void InstantiateTank(int i, bool isGamepad = default)
         {
-            string scheme = "Keyboard" + (i + 1);
-            tanks[i].m_PlayerInput = PlayerInput.Instantiate(m_TankPrefab, controlScheme: scheme, pairWithDevice: Keyboard.current);
+            string scheme;
+            InputDevice device;
+            if (!isGamepad)
+            {
+                scheme = "Keyboard" + (i + 1);
+                device = Keyboard.current;
+            }
+            else
+            {
+                scheme = "Gamepad";
+                device = Gamepad.current;
+            }
+            tanks[i].m_PlayerInput = PlayerInput.Instantiate(m_TankPrefab, controlScheme: scheme, pairWithDevice: device);
             tanks[i].m_Instance = tanks[i].m_PlayerInput.gameObject;
             tanks[i].m_PlayerInput.defaultControlScheme = scheme;
             tanks[i].m_PlayerInput.uiInputModule = inputModules[i];
@@ -174,7 +185,6 @@ namespace Complete
             // These are the targets the camera should follow.
             m_CameraControl.m_Targets = targets;
         }
-
 
         // This is called from start and will run each phase of the game one after another.
         private IEnumerator GameLoop ()
@@ -383,6 +393,29 @@ namespace Complete
             InstantiateTank(playerNumber);
             numberOfPlayers++;
             SetAllCameraRects();
+        }
+
+        public void InstantiateNewUndefinedPlayer()
+        {
+            Debug.Log("entro");
+            if (numberOfPlayers >= 4)
+            {
+                return;
+            }
+            Debug.Log("quepo");
+            for(int i = 0; i < 4; i++)
+            {
+                if(!tanks.ContainsKey(i))
+                {
+                    numberOfPlayers++;
+                    tanks.Add(i, m_Tanks_Available[i]);
+                    InstantiateTank(i, true);
+                    numberOfPlayers++;
+                    SetAllCameraRects();
+                    InputUser.PerformPairingWithDevice(Gamepad.current, user: tanks[i].m_PlayerInput.user);
+                    return;
+                }
+            }
         }
     }
 }

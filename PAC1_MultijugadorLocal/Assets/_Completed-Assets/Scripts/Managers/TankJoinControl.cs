@@ -16,4 +16,9 @@ public class TankJoinControl : MonoBehaviour
     {
         gameManager.InstantiateNewPlayer(id);
     }
+
+    public void OnJoinGamepad()
+    {
+        gameManager.InstantiateNewUndefinedPlayer();
+    }
 }

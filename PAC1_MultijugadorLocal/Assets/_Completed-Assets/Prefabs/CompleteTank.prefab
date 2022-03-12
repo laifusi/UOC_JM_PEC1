@@ -10803,7 +10803,23 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a8339236-68d1-4abb-98e1-f904645f10e9
     m_ActionName: Tank/Join4[/Keyboard/g]
-  m_NeverAutoSwitchControlSchemes: 0
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 898725740008091383}
+        m_TargetAssemblyTypeName: TankJoinControl, Assembly-CSharp
+        m_MethodName: OnJoinGamepad
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 95ab0b26-cb30-4d0c-b323-775fd0a72ce6
+    m_ActionName: Tank/JoinGamepad[/DualShock4GamepadHID/buttonNorth,/XInputControllerWindows/buttonNorth,/DualShock4GamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth,/DualShock4GamepadHID/buttonWest,/XInputControllerWindows/buttonWest,/DualShock4GamepadHID/buttonEast,/XInputControllerWindows/buttonEast]
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Tank
   m_SplitScreenIndex: -1

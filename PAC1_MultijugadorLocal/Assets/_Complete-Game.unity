@@ -308,7 +308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a3fe5183a9c45d498ced21af851cad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1304999364}
 --- !u!1 &194018015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,17 +1670,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_JoinAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: a56a11e3-2773-435d-aa14-8677edf91835
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -1965260636896900462, guid: 26112b6a7390865469c472b7dba72e11,
+      type: 3}
   m_PlayerPrefab: {fileID: 173472, guid: 756d3a6506f2f8241b4e8badde68567a, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
