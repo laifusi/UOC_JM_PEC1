@@ -22,13 +22,13 @@ namespace Complete
         //private List<TankManager> m_Tanks = new List<TankManager>();
         private Dictionary<int, TankManager> tanks = new Dictionary<int, TankManager>();
         public TankManager[] m_Tanks_Available;     // A collection of managers for enabling and disabling different aspects of the tanks.
-        //[SerializeField] Camera mainCam;            // Reference to the main Camera.
+        [SerializeField] Camera extraCam;           // Reference to the extra Camera for 3 players.
         //private List<Camera> cameras = new List<Camera>();
         [SerializeField] Camera[] cinemachineCameras;
         [SerializeField] CinemachineVirtualCamera[] virtualCams;
         [SerializeField] PlayerInputManager inputManager;
         [SerializeField] InputSystemUIInputModule[] inputModules;
-        [SerializeField] InputActionAsset[] actions;
+        [SerializeField] Transform map;
 
 
         private int m_RoundNumber;                  // Which round the game is currently on.
@@ -37,6 +37,7 @@ namespace Complete
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
         private int numberOfPlayers;
+        private int numActiveTanks;
 
 
         private void Start()
@@ -77,6 +78,7 @@ namespace Complete
             }
 
             numberOfPlayers = tanks.Count;
+            numActiveTanks = tanks.Count;
 
             // For all the tanks...
             foreach (int key in tanks.Keys)
@@ -114,6 +116,8 @@ namespace Complete
             }
             tanks[i].m_PlayerInput = PlayerInput.Instantiate(m_TankPrefab, controlScheme: scheme, pairWithDevice: device);
             tanks[i].m_Instance = tanks[i].m_PlayerInput.gameObject;
+            tanks[i].m_Instance.transform.position = tanks[i].m_SpawnPoint.position;
+            tanks[i].m_Instance.transform.rotation = tanks[i].m_SpawnPoint.rotation;
             tanks[i].m_PlayerInput.defaultControlScheme = scheme;
             tanks[i].m_PlayerInput.uiInputModule = inputModules[i];
             tanks[i].m_PlayerNumber = i + 1;
@@ -134,7 +138,7 @@ namespace Complete
             int i = 0;
             foreach(int key in tanks.Keys)
             {
-                if(numberOfPlayers > 2)
+                if (numberOfPlayers > 2)
                 {
                     if (i == 0)
                     {
@@ -289,6 +293,12 @@ namespace Complete
                     numTanksLeft++;
             }
 
+            if(numActiveTanks > numTanksLeft)
+            {
+                numActiveTanks = numTanksLeft;
+                //SetAllCameraRects();
+            }
+
             // If there are one or fewer tanks remaining return true, otherwise return false.
             return numTanksLeft <= 1;
         }
@@ -389,28 +399,26 @@ namespace Complete
             }
 
             numberOfPlayers++;
+            numActiveTanks++;
             tanks.Add(playerNumber, m_Tanks_Available[playerNumber]);
             InstantiateTank(playerNumber);
-            numberOfPlayers++;
             SetAllCameraRects();
         }
 
         public void InstantiateNewUndefinedPlayer()
         {
-            Debug.Log("entro");
             if (numberOfPlayers >= 4)
             {
                 return;
             }
-            Debug.Log("quepo");
             for(int i = 0; i < 4; i++)
             {
                 if(!tanks.ContainsKey(i))
                 {
                     numberOfPlayers++;
+                    numActiveTanks++;
                     tanks.Add(i, m_Tanks_Available[i]);
                     InstantiateTank(i, true);
-                    numberOfPlayers++;
                     SetAllCameraRects();
                     InputUser.PerformPairingWithDevice(Gamepad.current, user: tanks[i].m_PlayerInput.user);
                     return;

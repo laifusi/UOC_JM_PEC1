@@ -1006,7 +1006,7 @@ Transform:
   m_Children:
   - {fileID: 1619829162}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &983311648
 GameObject:
@@ -1507,6 +1507,7 @@ MonoBehaviour:
     m_Instance: {fileID: 0}
     m_PlayerInput: {fileID: 0}
     m_Wins: 0
+  extraCam: {fileID: 1619829165}
   cinemachineCameras:
   - {fileID: 1391056263}
   - {fileID: 1994059059}
@@ -1523,11 +1524,7 @@ MonoBehaviour:
   - {fileID: 1324234087}
   - {fileID: 462957094}
   - {fileID: 1602020090}
-  actions:
-  - {fileID: -944628639613478452, guid: 2e5d2d5224e0fb844b30c61eeb37f66b, type: 3}
-  - {fileID: -944628639613478452, guid: 248f98d043e30ea44a4b0bd74e8d8ebf, type: 3}
-  - {fileID: -944628639613478452, guid: 1221f39cd1b553c4c8267dc34ada5b48, type: 3}
-  - {fileID: -944628639613478452, guid: 26c99f63d82a3b149a288f04d5d46c16, type: 3}
+  map: {fileID: 2146060023}
 --- !u!4 &1304999366
 Transform:
   m_ObjectHideFlags: 0
@@ -2181,7 +2178,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 386839
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2230,7 +2227,7 @@ Transform:
   - {fileID: 250304502}
   - {fileID: 1211801276}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1771596988
 MonoBehaviour:
@@ -2593,3 +2590,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2146060023 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 488946, guid: 312c52d27be2d2d42acea3ccebc4694b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1158996493}
+  m_PrefabAsset: {fileID: 0}
