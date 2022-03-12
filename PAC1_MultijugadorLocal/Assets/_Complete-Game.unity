@@ -1001,14 +1001,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741922102}
-  m_LocalRotation: {x: 0.29619816, y: 0.46984637, z: -0.1710101, w: 0.81379765}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 42.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1619829162}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &983311648
 GameObject:
   m_ObjectHideFlags: 3
@@ -1485,24 +1485,28 @@ MonoBehaviour:
     m_PlayerNumber: 1
     m_ColoredPlayerText: 
     m_Instance: {fileID: 0}
+    m_PlayerInput: {fileID: 0}
     m_Wins: 0
   - m_PlayerColor: {r: 0.8980392, g: 0.18039216, b: 0.15686275, a: 0}
     m_SpawnPoint: {fileID: 2083660209}
     m_PlayerNumber: 2
     m_ColoredPlayerText: 
     m_Instance: {fileID: 0}
+    m_PlayerInput: {fileID: 0}
     m_Wins: 0
   - m_PlayerColor: {r: 0.23825592, g: 0.8980392, b: 0.15686274, a: 0}
     m_SpawnPoint: {fileID: 529828423}
     m_PlayerNumber: 2
     m_ColoredPlayerText: 
     m_Instance: {fileID: 0}
+    m_PlayerInput: {fileID: 0}
     m_Wins: 0
   - m_PlayerColor: {r: 0.8980392, g: 0.15686274, b: 0.8824721, a: 0}
     m_SpawnPoint: {fileID: 1083782833}
     m_PlayerNumber: 2
     m_ColoredPlayerText: 
     m_Instance: {fileID: 0}
+    m_PlayerInput: {fileID: 0}
     m_Wins: 0
   cinemachineCameras:
   - {fileID: 1391056263}
@@ -2140,7 +2144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619829161}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -65}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 741922104}
@@ -2165,15 +2169,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 0.5
+    y: -0.5
     width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 28
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

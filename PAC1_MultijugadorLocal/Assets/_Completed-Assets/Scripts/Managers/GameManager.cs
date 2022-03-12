@@ -373,6 +373,11 @@ namespace Complete
 
         public void InstantiateNewPlayer(int playerNumber)
         {
+            if(tanks.ContainsKey(playerNumber))
+            {
+                return;
+            }
+
             numberOfPlayers++;
             tanks.Add(playerNumber, m_Tanks_Available[playerNumber]);
             InstantiateTank(playerNumber);
