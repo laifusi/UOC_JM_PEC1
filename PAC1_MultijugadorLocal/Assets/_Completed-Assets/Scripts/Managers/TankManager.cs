@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Complete
 {
@@ -16,6 +17,7 @@ namespace Complete
         [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
         [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.
         [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
+        [HideInInspector] public PlayerInput m_PlayerInput;     // A reference to the PlayerInput of the tank when it is created.
         [HideInInspector] public int m_Wins;                    // The number of wins this player has so far.
         
 

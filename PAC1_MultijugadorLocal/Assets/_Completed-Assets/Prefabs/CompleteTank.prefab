@@ -10324,6 +10324,7 @@ GameObject:
   - component: {fileID: 11409376}
   - component: {fileID: 11488788}
   - component: {fileID: -4830517797787179534}
+  - component: {fileID: 4836029675139368886}
   m_Layer: 9
   m_Name: CompleteTank
   m_TagString: Untagged
@@ -10647,6 +10648,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 0.5
   limitDist: 20
+--- !u!114 &4836029675139368886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 26112b6a7390865469c472b7dba72e11,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11443146}
+        m_TargetAssemblyTypeName: Complete.TankMovement, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dc2b3474-1239-4a44-80f9-e4bfe1071f21
+    m_ActionName: Tank/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/u,/Keyboard/j,/Keyboard/h,/Keyboard/k,/Keyboard/f,/Keyboard/v,/Keyboard/c,/Keyboard/b]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11488788}
+        m_TargetAssemblyTypeName: Complete.TankShooting, Assembly-CSharp
+        m_MethodName: OnShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 956af054-eb0b-4a7a-8e57-cc496015865b
+    m_ActionName: Tank/Fire[/Keyboard/space,/Keyboard/e,/Keyboard/slash,/Keyboard/enter,/Keyboard/i,/Keyboard/l,/Keyboard/x,/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0de79534-3ebd-48e9-b699-5135f5002678
+    m_ActionName: Tank/Start[/Keyboard/r,/Keyboard/period,/Keyboard/o,/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11443146}
+        m_TargetAssemblyTypeName: Complete.TankMovement, Assembly-CSharp
+        m_MethodName: OnTurn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ff99a3d7-8901-493c-9108-d46a3932656b
+    m_ActionName: Tank/Turn[/Keyboard/a,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/h,/Keyboard/k,/Keyboard/c,/Keyboard/b]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Tank
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &173936
 GameObject:
   m_ObjectHideFlags: 0

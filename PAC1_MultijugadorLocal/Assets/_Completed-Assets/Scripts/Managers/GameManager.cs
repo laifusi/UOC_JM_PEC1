@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.InputSystem.Users;
+using System;
 
 namespace Complete
 {
@@ -22,6 +26,9 @@ namespace Complete
         //private List<Camera> cameras = new List<Camera>();
         [SerializeField] Camera[] cinemachineCameras;
         [SerializeField] CinemachineVirtualCamera[] virtualCams;
+        [SerializeField] PlayerInputManager inputManager;
+        [SerializeField] InputSystemUIInputModule[] inputModules;
+        [SerializeField] InputActionAsset[] actions;
 
 
         private int m_RoundNumber;                  // Which round the game is currently on.
@@ -44,27 +51,6 @@ namespace Complete
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
         }
-
-        private void Update()
-        {
-            if (!tanks.ContainsKey(0) && Input.GetButtonDown("Start1"))
-            {
-                InstantiateNewPlayer(0);
-            }
-            if (!tanks.ContainsKey(1) && Input.GetButtonDown("Start2"))
-            {
-                InstantiateNewPlayer(1);
-            }
-            if (!tanks.ContainsKey(2) && Input.GetButtonDown("Start3"))
-            {
-                InstantiateNewPlayer(2);
-            }
-            if (!tanks.ContainsKey(3) && Input.GetButtonDown("Start4"))
-            {
-                InstantiateNewPlayer(3);
-            }
-        }
-
 
         private void SpawnAllTanks()
         {
@@ -101,35 +87,33 @@ namespace Complete
 
             SetAllCameraRects();
 
-            //mainCam.gameObject.SetActive(false);
+            Invoke(nameof(PairKeyboard), 1);
+        }
+
+        private void PairKeyboard()
+        {
+            foreach (int key in tanks.Keys)
+            {
+                InputUser.PerformPairingWithDevice(Keyboard.current, user: tanks[key].m_PlayerInput.user);
+            }
         }
 
         private void InstantiateTank(int i)
         {
-            /*
-            m_Tanks[i].m_Instance = Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-            m_Tanks[i].m_PlayerNumber = i + 1;
-            m_Tanks[i].Setup();
-            AddCamera(i);
-            */
-            tanks[i].m_Instance = Instantiate(m_TankPrefab, tanks[i].m_SpawnPoint.position, tanks[i].m_SpawnPoint.rotation) as GameObject;
+            string scheme = "Keyboard" + (i + 1);
+            tanks[i].m_PlayerInput = PlayerInput.Instantiate(m_TankPrefab, controlScheme: scheme, pairWithDevice: Keyboard.current);
+            tanks[i].m_Instance = tanks[i].m_PlayerInput.gameObject;
+            tanks[i].m_PlayerInput.defaultControlScheme = scheme;
+            tanks[i].m_PlayerInput.uiInputModule = inputModules[i];
             tanks[i].m_PlayerNumber = i + 1;
             tanks[i].Setup();
             AddCamera(i);
         }
 
         private void AddCamera(int playerNumber)
-        {
-            /*GameObject newCamera = new GameObject("Camera" + (playerNumber + 1));
-            Camera camComponent = newCamera.AddComponent<Camera>();
-            camComponent.CopyFrom(mainCam);
-            cameras.Add(camComponent);*/
-
-            //newCamera.transform.parent = tanks[playerNumber].m_Instance.transform;
-            
+        {            
             cinemachineCameras[playerNumber].gameObject.SetActive(true);
 
-            //SetCameraRect(playerNumber, cinemachineCameras[playerNumber]);
             virtualCams[playerNumber].LookAt = tanks[playerNumber].m_Instance.transform;
             virtualCams[playerNumber].Follow = tanks[playerNumber].m_Instance.transform;
         }
@@ -171,43 +155,6 @@ namespace Complete
                 }
                 i++;
             }
-
-            /*if (numberOfPlayers < 3)
-            {
-                if (playerNumber == 0)
-                {
-                    camComponent.rect = new Rect(-0.5f, 0.0f, 1.0f, 1.0f);
-                }
-                else
-                {
-                    camComponent.rect = new Rect(0.5f, 0.0f, 1.0f, 1.0f);
-                }
-            }
-            else
-            {
-                if (playerNumber % 2 == 0)
-                {
-                    if (playerNumber == 0)
-                    {
-                        camComponent.rect = new Rect(-0.5f, 0.5f, 1.0f, 1.0f);
-                    }
-                    else
-                    {
-                        camComponent.rect = new Rect(-0.5f, -0.5f, 1.0f, 1.0f);
-                    }
-                }
-                else
-                {
-                    if (playerNumber == 1)
-                    {
-                        camComponent.rect = new Rect(0.5f, 0.5f, 1.0f, 1.0f);
-                    }
-                    else
-                    {
-                        camComponent.rect = new Rect(0.5f, -0.5f, 1.0f, 1.0f);
-                    }
-                }
-            }*/
         }
 
         private void SetCameraTargets()
@@ -424,17 +371,12 @@ namespace Complete
             }
         }
 
-
         public void InstantiateNewPlayer(int playerNumber)
         {
             numberOfPlayers++;
             tanks.Add(playerNumber, m_Tanks_Available[playerNumber]);
             InstantiateTank(playerNumber);
             numberOfPlayers++;
-            /*for(int i = 0; i < numberOfPlayers; i++)
-            {
-                SetCameraRect(i, cinemachineCameras[i]);
-            }*/
             SetAllCameraRects();
         }
     }

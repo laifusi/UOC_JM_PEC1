@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Complete
 {
@@ -73,8 +74,8 @@ namespace Complete
         private void Update ()
         {
             // Store the value of both input axes.
-            m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
-            m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
+            //m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
+            //m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
 
             EngineAudio ();
         }
@@ -115,6 +116,15 @@ namespace Complete
             Turn ();
         }
 
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            m_MovementInputValue = context.ReadValue<float>();
+        }
+
+        public void OnTurn(InputAction.CallbackContext context)
+        {
+            m_TurnInputValue = context.ReadValue<float>();
+        }
 
         private void Move ()
         {

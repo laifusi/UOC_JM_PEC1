@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 namespace Complete
 {
@@ -23,6 +24,7 @@ namespace Complete
         private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
         private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
         private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
+        private bool firing;
         private Rigidbody m_ShellToUse;             // Shell prefab to use when firing.
 
 
@@ -44,6 +46,21 @@ namespace Complete
 
             // The rate that the launch force charges up is the range of possible forces by the max charge time.
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
+
+
+            m_ShellToUse = m_Shell;
+        }
+
+        public void OnShoot(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            { 
+                StartShoot();
+            }
+            else if(context.canceled && !m_Fired)
+            {
+                Fire();
+            }
         }
 
 
@@ -51,7 +68,6 @@ namespace Complete
         {
             // The slider should have a default value of the minimum launch force.
             m_AimSlider.value = m_MinLaunchForce;
-
             // If the max force has been exceeded and the shell hasn't yet been launched...
             if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
             {
@@ -59,41 +75,56 @@ namespace Complete
                 m_CurrentLaunchForce = m_MaxLaunchForce;
                 Fire ();
             }
-            // Otherwise, if the fire button has just started being pressed...
-            else if (Input.GetButtonDown (m_FireButton) || Input.GetButtonDown(m_AltFireButton))
+            else if(firing)
             {
-                // ... reset the fired flag and reset the launch force.
-                m_Fired = false;
-                m_CurrentLaunchForce = m_MinLaunchForce;
-
-                // Change the clip to the charging clip and start it playing.
-                m_ShootingAudio.clip = m_ChargingClip;
-                m_ShootingAudio.Play ();
-
-                //Set the prefab to use based on the button that was pressed.
-                m_ShellToUse = Input.GetButton(m_FireButton) ? m_Shell : m_RedShell;
+                HoldShoot();
+            }
+            // Otherwise, if the fire button has just started being pressed...
+            /*else if (Input.GetButtonDown (m_FireButton) || Input.GetButtonDown(m_AltFireButton))
+            {
+                StartShoot();
             }
             // Otherwise, if the fire button is being held and the shell hasn't been launched yet...
             else if ((Input.GetButton (m_FireButton) || Input.GetButton(m_AltFireButton)) && !m_Fired)
             {
-                // Increment the launch force and update the slider.
-                m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
-
-                m_AimSlider.value = m_CurrentLaunchForce;
+                HoldShoot();
             }
             // Otherwise, if the fire button is released and the shell hasn't been launched yet...
             else if ((Input.GetButtonUp (m_FireButton) || Input.GetButtonUp(m_AltFireButton)) && !m_Fired)
             {
                 // ... launch the shell.
                 Fire ();
-            }
+            }*/
         }
 
+        private void HoldShoot()
+        {
+            // Increment the launch force and update the slider.
+            m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
+
+            m_AimSlider.value = m_CurrentLaunchForce;
+        }
+
+        private void StartShoot()
+        {
+            // ... reset the fired flag and reset the launch force.
+            m_Fired = false;
+            firing = true;
+            m_CurrentLaunchForce = m_MinLaunchForce;
+
+            // Change the clip to the charging clip and start it playing.
+            m_ShootingAudio.clip = m_ChargingClip;
+            m_ShootingAudio.Play();
+
+            //Set the prefab to use based on the button that was pressed.
+            //m_ShellToUse = Input.GetButton(m_FireButton) ? m_Shell : m_RedShell;
+        }
 
         private void Fire ()
         {
             // Set the fired flag so only Fire is only called once.
             m_Fired = true;
+            firing = false;
 
             // Create an instance of the shell and store a reference to it's rigidbody.
             Rigidbody shellInstance =
