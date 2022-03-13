@@ -24,7 +24,7 @@ namespace Complete
         private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
         private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
         private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
-        private bool firing;
+        private bool firing;                        // Bool to determine firing state
         private Rigidbody m_ShellToUse;             // Shell prefab to use when firing.
 
 
@@ -79,22 +79,6 @@ namespace Complete
             {
                 HoldShoot();
             }
-            // Otherwise, if the fire button has just started being pressed...
-            /*else if (Input.GetButtonDown (m_FireButton) || Input.GetButtonDown(m_AltFireButton))
-            {
-                StartShoot();
-            }
-            // Otherwise, if the fire button is being held and the shell hasn't been launched yet...
-            else if ((Input.GetButton (m_FireButton) || Input.GetButton(m_AltFireButton)) && !m_Fired)
-            {
-                HoldShoot();
-            }
-            // Otherwise, if the fire button is released and the shell hasn't been launched yet...
-            else if ((Input.GetButtonUp (m_FireButton) || Input.GetButtonUp(m_AltFireButton)) && !m_Fired)
-            {
-                // ... launch the shell.
-                Fire ();
-            }*/
         }
 
         private void HoldShoot()
@@ -115,9 +99,6 @@ namespace Complete
             // Change the clip to the charging clip and start it playing.
             m_ShootingAudio.clip = m_ChargingClip;
             m_ShootingAudio.Play();
-
-            //Set the prefab to use based on the button that was pressed.
-            //m_ShellToUse = Input.GetButton(m_FireButton) ? m_Shell : m_RedShell;
         }
 
         private void Fire ()

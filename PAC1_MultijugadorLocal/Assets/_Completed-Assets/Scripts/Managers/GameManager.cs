@@ -19,16 +19,13 @@ namespace Complete
         public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
         public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
         public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
-        //private List<TankManager> m_Tanks = new List<TankManager>();
-        private Dictionary<int, TankManager> tanks = new Dictionary<int, TankManager>();
+        private Dictionary<int, TankManager> tanks = new Dictionary<int, TankManager>(); // Collection of tanks in use, organized by their player number
         public TankManager[] m_Tanks_Available;     // A collection of managers for enabling and disabling different aspects of the tanks.
         [SerializeField] Camera extraCam;           // Reference to the extra Camera for 3 players.
-        //private List<Camera> cameras = new List<Camera>();
-        [SerializeField] Camera[] cinemachineCameras;
-        [SerializeField] CinemachineVirtualCamera[] virtualCams;
-        [SerializeField] PlayerInputManager inputManager;
-        [SerializeField] InputSystemUIInputModule[] inputModules;
-        [SerializeField] Transform map;
+        [SerializeField] Camera[] cinemachineCameras; // Collection of cinemachine Cameras
+        [SerializeField] CinemachineVirtualCamera[] virtualCams; // Collection of Cinemachine Virtual Cameras
+        [SerializeField] InputSystemUIInputModule[] inputModules; // Collection of UI Input Modules
+        //[SerializeField] Transform map;             
 
 
         private int m_RoundNumber;                  // Which round the game is currently on.
@@ -36,8 +33,9 @@ namespace Complete
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-        private int numberOfPlayers;
-        private int numActiveTanks;
+        private int numberOfPlayers;                // Number of players in the game
+        private int numActiveTanks;                 // Number of active players
+        private int gamepadsInUse;                  // Number of gamepads assigned
 
 
         private void Start()
@@ -55,11 +53,6 @@ namespace Complete
 
         private void SpawnAllTanks()
         {
-            /*for(int i = 0; i < numberOfPlayers; i++)
-            {
-                m_Tanks.Add(m_Tanks_Available[i]);
-            }*/
-
             if(PlayerPrefs.GetInt("Player1") == 1)
             {
                 tanks.Add(0, m_Tanks_Available[0]);
@@ -138,17 +131,17 @@ namespace Complete
             int i = 0;
             foreach(int key in tanks.Keys)
             {
-                if (numberOfPlayers > 2)
+                if (numActiveTanks > 2)
                 {
                     if (i == 0)
                     {
                         cinemachineCameras[key].rect = new Rect(-0.5f, 0.5f, 1.0f, 1.0f);
                     }
-                    else if(i == 1)
+                    else if (i == 1)
                     {
                         cinemachineCameras[key].rect = new Rect(0.5f, 0.5f, 1.0f, 1.0f);
                     }
-                    else if(i == 2)
+                    else if (i == 2)
                     {
                         cinemachineCameras[key].rect = new Rect(-0.5f, -0.5f, 1.0f, 1.0f);
                     }
@@ -293,11 +286,11 @@ namespace Complete
                     numTanksLeft++;
             }
 
-            if(numActiveTanks > numTanksLeft)
+            /*if(numTanksLeft > 1 && numActiveTanks > numTanksLeft)
             {
                 numActiveTanks = numTanksLeft;
-                //SetAllCameraRects();
-            }
+                SetAllCameraRects();
+            }*/
 
             // If there are one or fewer tanks remaining return true, otherwise return false.
             return numTanksLeft <= 1;
@@ -367,10 +360,12 @@ namespace Complete
         // This function is used to turn all the tanks back on and reset their positions and properties.
         private void ResetAllTanks()
         {
+            numActiveTanks = numberOfPlayers;
             foreach (int key in tanks.Keys)
             {
                 tanks[key].Reset();
             }
+            PairKeyboard();
         }
 
 
@@ -411,7 +406,11 @@ namespace Complete
             {
                 return;
             }
-            for(int i = 0; i < 4; i++)
+
+            if (gamepadsInUse == Gamepad.all.Count)
+                return;
+
+            for (int i = 0; i < 4; i++)
             {
                 if(!tanks.ContainsKey(i))
                 {
@@ -421,6 +420,7 @@ namespace Complete
                     InstantiateTank(i, true);
                     SetAllCameraRects();
                     InputUser.PerformPairingWithDevice(Gamepad.current, user: tanks[i].m_PlayerInput.user);
+                    gamepadsInUse++;
                     return;
                 }
             }

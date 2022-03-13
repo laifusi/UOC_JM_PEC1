@@ -10610,6 +10610,8 @@ MonoBehaviour:
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   m_ZeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
   m_ExplosionPrefab: {fileID: 151086, guid: 6bc6d0dd8b8428e4ca316513f2cf13c6, type: 3}
+  deadCanvasPrefab: {fileID: 8822395071262739024, guid: fb9dd2b22a7ae4440a4c7b16ac8ed094,
+    type: 3}
 --- !u!114 &11488788
 MonoBehaviour:
   m_ObjectHideFlags: 0
